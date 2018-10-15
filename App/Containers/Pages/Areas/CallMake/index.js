@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import AreaActions from '../../../../Redux/AreaRedux'
 import { Icon, CheckBox } from "native-base"
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Moment from 'moment'
-
+import BansList from '../BansList'
 // Styles
 import styles from './styles'
 
@@ -25,9 +25,9 @@ class CallMake extends Component {
     super(props)
     this.state = {
       area: props.navigation.getParam('area', {}),
-      makeDate: false,
+      makeDate: new Date(),
       isDateTimePickerVisible1: false,
-      keepArea: false
+      keepArea: false,
     }
   }
   _showDateTimePicker1 = () => this.setState({ isDateTimePickerVisible1: true });
@@ -47,44 +47,48 @@ class CallMake extends Component {
   }
 
   callMakeToServer = () => {
-    console.log(this.state)
     this.props.callMake({area_id: this.state.area.id, date_of_make: this.state.makeDate, keep_area: this.state.keepArea})
   }
 
   render () {
     return (
       <View style={styles.container}>
-        <Text>Symbol: {this.state.area.symbol}</Text>
-        <Text>Nazwa: {this.state.area.name}</Text>
-        <Text>Przydzielony:
-          {this.state.area.publisher ?
-            <Text> {this.state.area.publisher.first_name} {this.state.area.publisher.last_name}</Text>
-            :
-            <Text />
-          }
-          {this.state.area.group ?
-            <Text> {this.state.area.group.name}</Text>
-            :
-            <Text />
-          }
-        </Text>
-        <TouchableOpacity style={styles.firstButton} onPress={this._showDateTimePicker1}>
-          {this.state.makeDate ?
-            <Text style={styles.buttonText}>Data opracowania: {Moment(new Date(this.state.makeDate)).format('DD-MM-YYYY')}</Text>
-            :
-            <Text style={styles.buttonText}>Data opracowania:</Text>
-          }
-        </TouchableOpacity>
 
-        <DateTimePicker
-          isVisible={this.state.isDateTimePickerVisible1}
-          onConfirm={this._handleDatePicked1}
-          onCancel={this._hideDateTimePicker1}
-        />
-        <View style={styles.checkboxContainer}>
-          <CheckBox checked={this.state.keepArea} onPress={()=> this.setState({keepArea: !this.state.keepArea})}/>
-          <Text style={{marginLeft: 10}}>Pozostaw teren przydzielony</Text>
+        <View style={{justifyContent: 'center'}}>
+          <Text>Symbol: {this.state.area.symbol}</Text>
+          <Text>Nazwa: {this.state.area.name}</Text>
+          <Text>Przydzielony:
+            {this.state.area.publisher ?
+              <Text> {this.state.area.publisher.first_name} {this.state.area.publisher.last_name}</Text>
+              :
+              <Text />
+            }
+            {this.state.area.group ?
+              <Text> {this.state.area.group.name}</Text>
+              :
+              <Text />
+            }
+          </Text>
+          <TouchableOpacity style={styles.firstButton} onPress={this._showDateTimePicker1}>
+            {this.state.makeDate ?
+              <Text style={styles.buttonText}>Data opracowania: {Moment(new Date(this.state.makeDate)).format('DD-MM-YYYY')}</Text>
+              :
+              <Text style={styles.buttonText}>Data opracowania:</Text>
+            }
+          </TouchableOpacity>
+
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible1}
+            onConfirm={this._handleDatePicked1}
+            onCancel={this._hideDateTimePicker1}
+          />
+          <View style={styles.checkboxContainer}>
+            <CheckBox checked={this.state.keepArea} onPress={()=> this.setState({keepArea: !this.state.keepArea})}/>
+            <Text style={{marginLeft: 10}}>Pozostaw teren przydzielony</Text>
+          </View>
         </View>
+
+        <BansList area={this.state.area}/>
 
       </View>
     )
@@ -92,7 +96,9 @@ class CallMake extends Component {
 }
 
 const mapStateToProps = state => {
-  return {}
+  return {
+    user: state.user
+  }
 }
 const mapDispatchToProps = dispatch => {
   return {

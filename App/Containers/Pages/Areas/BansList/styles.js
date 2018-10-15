@@ -4,20 +4,22 @@ import Metrics, { moderateScale, scale, verticalScale } from '../../../../Themes
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch'
+  listContent: {
   },
-  firstButton: {
-    // width: 200,
-    // height: 100,
-    // justifyContent: 'center',
-    // alignItems: 'center'
-  },
-  buttonText: {
-  },
-  checkboxContainer: {
+  headerContainer: {
     flexDirection: 'row'
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  areaAddress: {
+    flex: 2,
+  },
+  areaDate: {
+    flex: 3
+  },
+  buttonRemove: {
+    flex:1
   }
 })

@@ -46,14 +46,14 @@ class Areas extends Component {
           tabBarPosition='overlayBottom'
           tabBarUnderlineStyle={{backgroundColor: 'white'}}
         >
-          <Tab heading={ this.allAreasHeading() }>
-            <AllAreaList />
-          </Tab>
           <Tab heading={ this.unassignedAreasHeading() }>
             <UnassignedAreasList />
           </Tab>
           <Tab heading={ this.assignedAreasHeading() }>
             <AssignedAreasList />
+          </Tab>
+          <Tab heading={ this.allAreasHeading() }>
+            <AllAreaList />
           </Tab>
         </Tabs>
 

@@ -22,13 +22,13 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  allAreas: {},
+  allAreas: [],
   allAreasFetching: false,
   allAreasError: null,
-  unassignedAreas: {},
+  unassignedAreas: [],
   unassignedAreasFetching: false,
   unassignedAreasError: null,
-  assignedAreas: {},
+  assignedAreas: [],
   assignedAreasFetching: false,
   assignedAreasError: null
 })
