@@ -56,4 +56,16 @@ export function * callMake (api, action) {
     yield put(NavigationActions.back())
   }
 }
+export function * assignArea (api, action) {
+  const { params } = action
+  // make the call to the api
+  const response = yield call(api.assignArea, params)
+
+  if (response.ok) {
+    const data = path(['data'], response)
+    console.log(data)
+    // do data conversion here if needed
+    yield put(NavigationActions.back())
+  }
+}
 

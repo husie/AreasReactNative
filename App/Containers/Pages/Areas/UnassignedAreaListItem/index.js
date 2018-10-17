@@ -17,7 +17,7 @@ class UnassignedAreaListItem extends Component {
 
           <View style={styles.downButtonsPostion}>
             <TouchableOpacity style={styles.smallContainerButton1}>
-              <Text>Przydziel</Text>
+              <Text onPress={() => this.props.navigation.navigate('AssignArea', { area: this.props.area } )}>Przydziel</Text>
             </TouchableOpacity>
           </View>
 

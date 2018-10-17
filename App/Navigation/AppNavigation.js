@@ -3,10 +3,12 @@ import LaunchScreen from '../Containers/LaunchScreen'
 import Areas from '../Containers/Pages/Areas'
 import Logout from '../Containers/Logout'
 import CallMake from '../Containers/Pages/Areas/CallMake'
+import AssignArea from '../Containers/Pages/Areas/AssignArea'
 
 const AreasStackNavigator = StackNavigator({
   Areas: { screen: Areas },
-  CallMake: { screen: CallMake }
+  CallMake: { screen: CallMake },
+  AssignArea: { screen: AssignArea }
 });
 
 

@@ -14,6 +14,7 @@ const { Types, Creators } = createActions({
   assignedAreasSuccess: ['data'],
   assignedAreasFailure: ['error'],
   callMake: ['params'],
+  assignArea: ['params']
 })
 
 export const AreaTypes = Types
@@ -84,6 +85,7 @@ export const assignedAreasFailure = (state, action) => {
   return state.merge({ assignedAreasFetching: false, aassignedAreasError: error })
 }
 export const callMake = (state) => state
+export const assignArea = (state) => state
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -97,5 +99,6 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ASSIGNED_AREAS_REQUEST]: assignedAreasRequest,
   [Types.ASSIGNED_AREAS_SUCCESS]: assignedAreasSuccess,
   [Types.ASSIGNED_AREAS_FAILURE]: assignedAreasFailure,
-  [Types.CALL_MAKE]: callMake
+  [Types.CALL_MAKE]: callMake,
+  [Types.ASSIGN_AREA]: assignArea
 })

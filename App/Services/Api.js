@@ -41,6 +41,9 @@ const create = (baseURL = AppConfig.apiUrl) => {
   const getUnassignedAreas = () => api.get('/areas', {type: 'unassigned'})
   const getAssignedAreas = () => api.get('/areas', {type: 'assigned'})
   const callMake = (params) => api.post('/makes', params)
+  const assignArea = (params) => api.post('/areas/'+params.area_id+'/assign', params)
+  const getAllPublishers = () => api.get('/publishers')
+  const getAllGroups = () => api.get('/groups')
   // ------
   // STEP 3
   // ------
@@ -60,7 +63,10 @@ const create = (baseURL = AppConfig.apiUrl) => {
     getAllAreas,
     getUnassignedAreas,
     getAssignedAreas,
-    callMake
+    callMake,
+    assignArea,
+    getAllPublishers,
+    getAllGroups
   }
 }
 

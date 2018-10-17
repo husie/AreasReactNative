@@ -15,7 +15,7 @@ class Areas extends Component {
   };
   allAreasHeading () {
     return (
-      <TabHeading>
+      <TabHeading style={{backgroundColor: 'white'}}>
         <Text>Wszystkie</Text>
       </TabHeading>
     )
@@ -23,7 +23,7 @@ class Areas extends Component {
 
   unassignedAreasHeading () {
     return (
-      <TabHeading>
+      <TabHeading style={{backgroundColor: 'red'}}>
         <Text>Nieprzydzielone</Text>
       </TabHeading>
     )
@@ -31,7 +31,7 @@ class Areas extends Component {
 
   assignedAreasHeading () {
     return (
-      <TabHeading>
+      <TabHeading style={{backgroundColor: 'green'}}>
         <Text>Przydzielone</Text>
       </TabHeading>
     )

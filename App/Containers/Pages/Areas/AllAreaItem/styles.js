@@ -26,7 +26,7 @@ export default StyleSheet.create({
   },
 
   containerText: {
-    color: 'blue',
+    color: 'black',
     paddingLeft: 5,
     paddingTop: 5
   },

@@ -12,7 +12,7 @@ import styles from './styles'
 class CallMake extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Call make',
+      title: 'Zgłoś opracowanie',
       headerLeft: <Icon name='ios-arrow-back' onPress={ () => navigation.goBack() } />,
       headerRight: (
         <TouchableOpacity onPress={() => navigation.state.params.handleSave()}>
