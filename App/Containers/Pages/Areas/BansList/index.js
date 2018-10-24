@@ -13,7 +13,7 @@ import styles from './styles'
 class BansList extends Component {
   constructor (props) {
     super(props)
-    const area = props.navigation.getParam('area', {})
+    const area = this.props.area;
 
     this.state = {
       area: area,

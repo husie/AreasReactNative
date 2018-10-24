@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Container, Tab, TabHeading, Tabs, Text, Icon, Picker, CheckBox } from 'native-base'
+import { StyleSheet, View, TouchableOpacity, Linking, FlatList } from 'react-native';
+import { Text, Icon, CheckBox } from 'native-base'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import PublisherActions from "../../../../Redux/PublisherRedux";
 import GroupsActions from "../../../../Redux/GroupRedux";
 import AreaActions from '../../../../Redux/AreaRedux'
 import {connect} from "react-redux";
 import Moment from "moment/moment";
+import RNPickerSelect from 'react-native-picker-select';
 
 class AssignArea extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -23,10 +24,12 @@ class AssignArea extends Component {
 
   constructor (props) {
     super(props)
+    this.inputRefs = {};
+
     this.state = {
       area: props.navigation.getParam('area', {}),
-      publisher: null,
-      group: null,
+      publisher: undefined,
+      group: undefined,
       assignDate: new Date(),
       isDateTimePickerVisible1: false,
       assign_for_group: false,
@@ -65,6 +68,28 @@ class AssignArea extends Component {
     this.props.assignArea({area_id: this.state.area.id, assign_date: this.state.assignDate, group_id: group_id, publisher_id: publisher_id})
   }
 
+  openSmsApp() {
+    let body = 'sms:?body=';
+    let bans = this.state.area.bans.map((ban) => (ban.address+','))
+    Linking.canOpenURL(body+bans).then(supported => {
+      if (supported) {
+        Linking.openURL(body+bans);
+      } else {
+        console.log("Don't know how to open URI");
+      }
+    });
+  }
+
+  _keyExtractor = (item, index) => index.toString();
+
+  _renderItem = ({item}) => {
+    return (
+      <View style={styles.itemContainer}>
+        <Text style={styles.areaAddress}>{item.address}</Text>
+        <Text style={styles.areaDate}>{Moment(new Date(item.created_at)).format('DD-MM-YYYY')}</Text>
+      </View>
+    )
+  }
   render () {
     return (
       <View>
@@ -82,36 +107,57 @@ class AssignArea extends Component {
         </View>
         {this.state.assign_for_publisher ?
           <View>
-            <Picker
-              note
-              mode="dropdown"
-              style={{}}
-              selectedValue={this.state.publisher}
-              onValueChange={(itemValue) => this.setState({publisher: itemValue, group: false})}>
-              {this.props.publishers.map(publisher => {
-                const name = publisher.first_name + ' ' + publisher.last_name
-
-                return <Picker.Item label={name} value={publisher} />
+            <RNPickerSelect
+              placeholder={{
+                label: 'Wybierz głosiciela...',
+                value: null,
+              }}
+              items={this.props.publishers.map((item) => {
+                return {label: (item.first_name + ' ' + item.last_name), value: item}
               })}
-            </Picker>
+              onValueChange={(value) => {
+                this.setState({publisher: value, group: false});
+              }}
+              onUpArrow={() => {
+                this.inputRefs.name.focus();
+              }}
+              onDownArrow={() => {
+                this.inputRefs.picker2.togglePicker();
+              }}
+              value={this.state.publisher}
+              ref={(el) => {
+                this.inputRefs.picker = el;
+              }}
+            />
           </View>
         :
         <View />
         }
         {this.state.assign_for_group ?
           <View>
-            <Picker
-              note
-              mode="dropdown"
-              style={{}}
-              selectedValue={this.state.group}
-              onValueChange={(itemValue) => this.setState({publisher: false, group: itemValue})} >
-              {this.props.groups.map(group => {
-                const name = group.name
-
-                return <Picker.Item label={name} value={group} />
+            <RNPickerSelect
+              placeholder={{
+                label: 'Wybierz grupę...',
+                value: null,
+              }}
+              items={this.props.groups.map((item) => {
+                return {label: (item.name + ' ' + item.publisher.first_name + ' ' + item.publisher.last_name), value: item}
               })}
-            </Picker>
+              onValueChange={(value) => {
+                this.setState({publisher: false, group: value});
+                console.log(this.state)
+              }}
+              onUpArrow={() => {
+                this.inputRefs.name.focus();
+              }}
+              onDownArrow={() => {
+                this.inputRefs.picker2.togglePicker();
+              }}
+              value={this.state.group}
+              ref={(el) => {
+                this.inputRefs.picker = el;
+              }}
+            />
           </View>
         :
           <View/>
@@ -129,6 +175,16 @@ class AssignArea extends Component {
           onConfirm={this._handleDatePicked1}
           onCancel={this._hideDateTimePicker1}
         />
+        <FlatList
+          keyExtractor={this._keyExtractor}
+          data={this.state.area.bans}
+          renderItem={this._renderItem}
+          ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this._renderFooter}
+        />
+        <TouchableOpacity onPress={() => this.openSmsApp()}>
+          <Text>Send SMS</Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -138,6 +194,16 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  areaAddress: {
+    flex: 2,
+  },
+  areaDate: {
+    flex: 3
   },
 });
 

@@ -11,7 +11,6 @@ export function * getAllGroups (api) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
 
     // do data conversion here if needed
     yield put(GroupActions.allGroupsSuccess(data))
