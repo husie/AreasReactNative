@@ -9,7 +9,6 @@ export function * getAllAreas (api) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
 
     // do data conversion here if needed
     yield put(AreaActions.allAreasSuccess(data))
@@ -24,7 +23,6 @@ export function * getUnassignedAreas (api) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
     // do data conversion here if needed
     yield put(AreaActions.unassignedAreasSuccess(data))
   } else {
@@ -37,7 +35,6 @@ export function * getAssignedAreas (api) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
     // do data conversion here if needed
     yield put(AreaActions.assignedAreasSuccess(data))
   } else {
@@ -51,7 +48,6 @@ export function * callMake (api, action) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
     // do data conversion here if needed
     yield put(NavigationActions.back())
   }
@@ -63,7 +59,6 @@ export function * assignArea (api, action) {
 
   if (response.ok) {
     const data = path(['data'], response)
-    console.log(data)
     // do data conversion here if needed
     yield put(NavigationActions.back())
   }

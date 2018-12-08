@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation'
 
 // Styles
 import styles from './styles'
+import Moment from "moment/moment";
 
 class AllAreaItem extends Component {
   render () {
@@ -23,13 +24,13 @@ class AllAreaItem extends Component {
               </View>:
               <View />
             }
-            <Text style={styles.containerText}>{this.props.area.last_make}</Text>
+            <Text style={styles.containerText}>{Moment(new Date(this.props.area.last_make)).format('DD-MM-YYYY')}</Text>
           </View>
 
           <View style={styles.downButtonsPostion}>
-            <TouchableOpacity style={styles.smallContainerButton1}>
-              <Text>Zgłoś</Text>
-            </TouchableOpacity>
+            {/*<TouchableOpacity style={styles.smallContainerButton1}>*/}
+              {/*<Text>Zgłoś</Text>*/}
+            {/*</TouchableOpacity>*/}
           </View>
 
         </View>

@@ -70,10 +70,11 @@ class AssignArea extends Component {
 
   openSmsApp() {
     let body = 'sms:?body=';
-    let bans = this.state.area.bans.map((ban) => (ban.address+','))
-    Linking.canOpenURL(body+bans).then(supported => {
+    let bans = this.state.area.bans.map((ban) => (ban.address+' data: '+Moment(new Date(ban.created_at)).format('DD-MM-YYYY')+';'));
+    const url = body+this.state.area.name+' nie zachodzić: '+bans;
+    Linking.canOpenURL(url).then(supported => {
       if (supported) {
-        Linking.openURL(body+bans);
+        Linking.openURL(url);
       } else {
         console.log("Don't know how to open URI");
       }
@@ -145,7 +146,6 @@ class AssignArea extends Component {
               })}
               onValueChange={(value) => {
                 this.setState({publisher: false, group: value});
-                console.log(this.state)
               }}
               onUpArrow={() => {
                 this.inputRefs.name.focus();

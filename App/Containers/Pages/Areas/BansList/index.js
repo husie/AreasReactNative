@@ -48,7 +48,6 @@ class BansList extends Component {
     })
     api.delete('/bans/'+ban.id)
       .then((response) => this.removeBanFromState( response, ban))
-      .then((error) => console.log(error))
   }
   removeBanFromState = (response, ban) => {
     const data = path(['data'], response)
@@ -92,7 +91,6 @@ class BansList extends Component {
       })
       api.post('/bans', {area_id: this.state.area.id, address: this.state.banText})
         .then((response) => this.responseSuccess(response))
-        .then((error) => console.log(error))
     }
   }
 
